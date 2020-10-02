@@ -73,10 +73,34 @@
         if (ship.thrusting) {
           ship.thrust.x += (SHIP_THRUST * Math.cos(ship.a)) / FPS;
           ship.thrust.y -= (SHIP_THRUST * Math.sin(ship.a)) / FPS;
+          // draw the thruster
+          ctx.strokeStyle = "grey";
+          ctx.fillStyle = "white";
+          ctx.lineWidth = SHIP_SIZE / 10;
+          ctx.beginPath();
+          ctx.moveTo(
+            // rear left
+            ship.x - ship.r * ((2 / 3) * Math.cos(ship.a) + 0.5 * Math.sin(ship.a)),
+            ship.y + ship.r * ((2 / 3) * Math.sin(ship.a) - 0.5 * Math.cos(ship.a))
+          );
+          ctx.lineTo(
+            // rear centre behind the ship
+            ship.x - ship.r * (5 / 3) * Math.cos(ship.a),
+            ship.y + ship.r * (5 / 3) * Math.sin(ship.a)
+          );
+          ctx.lineTo(
+            // rear right
+            ship.x - ship.r * ((2 / 3) * Math.cos(ship.a) - 0.5 * Math.sin(ship.a)),
+            ship.y + ship.r * ((2 / 3) * Math.sin(ship.a) + 0.5 * Math.cos(ship.a))
+          );
+          ctx.closePath();
+          ctx.fill();
+          ctx.stroke();
         } else {
           ship.thrust.x -= (FRICTION * ship.thrust.x) / FPS;
           ship.thrust.y -= (FRICTION * ship.thrust.y) / FPS;
         }
+
         // draw ship
         ctx.strokeStyle = "white";
         ctx.lineWidth = SHIP_SIZE / 40;
@@ -114,9 +138,9 @@
         } else if (ship.y > canv.height + ship.r) {
           ship.y = 0 - ship.r;
         }
-        // centre of the ship
+        /* centre of the ship
         ctx.fillStyle = "white";
-        ctx.fillRect(ship.x - 1, ship.y - 1, 1, 1);
+        ctx.fillRect(ship.x - 1, ship.y - 1, 1, 1);*/
       }
     </script>
   </body>
