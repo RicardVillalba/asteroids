@@ -77,7 +77,6 @@
           ship.thrust.x -= (FRICTION * ship.thrust.x) / FPS;
           ship.thrust.y -= (FRICTION * ship.thrust.y) / FPS;
         }
-
         // draw ship
         ctx.strokeStyle = "white";
         ctx.lineWidth = SHIP_SIZE / 40;
@@ -104,6 +103,17 @@
         // move the ship
         ship.x += ship.thrust.x;
         ship.y += ship.thrust.y;
+        // handle edge of screen
+        if (ship.x < 0 - ship.r) {
+          ship.x = canv.width + ship.r;
+        } else if (ship.x > canv.width + ship.r) {
+          ship.x = 0 - ship.r;
+        }
+        if (ship.y < 0 - ship.r) {
+          ship.y = canv.height + ship.r;
+        } else if (ship.y > canv.height + ship.r) {
+          ship.y = 0 - ship.r;
+        }
         // centre of the ship
         ctx.fillStyle = "white";
         ctx.fillRect(ship.x - 1, ship.y - 1, 1, 1);
