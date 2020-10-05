@@ -33,6 +33,7 @@
       const TEXT_FADE_TIME = 5; // text fade time in seconds
       const TEXT_SIZE = 30; // text font height in pixels
       const GAME_LIVES = 3; // number of lives
+      const SAVE_KEY_SCORE = "highscore"; // save key for local storage
 
       /** @type {HTMLCanvasElement} */
       var canv = document.getElementById("asteroidsCanvas");
@@ -82,6 +83,7 @@
         // check high score
         if (score > scoreHigh) {
           scoreHigh = score;
+          localStorage.setItem(SAVE_KEY_SCORE, scoreHigh);
         }
 
         // destroy the asteroid
@@ -198,8 +200,14 @@
         level = 0;
         lives = GAME_LIVES;
         score = 0;
-        scoreHigh = 100;
         ship = newShip();
+        // get the high score from local storage
+        var scoreStr = localStorage.getItem(SAVE_KEY_SCORE);
+        if (scoreStr == null) {
+          scoreHigh = 0;
+        } else {
+          scoreHigh = parseInt(scoreStr);
+        }
         newLevel();
       }
 
