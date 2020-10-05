@@ -20,7 +20,7 @@
       const LASER_MAX = 10; // max num of lasers on screen at once
       const LASER_SPD = 500; // speed of lasers in pixels per second
       const LASER_DIST = 0.3; // max distance laser as a fraction of screen with
-      const SHIP_SIZE = 30;
+      const SHIP_SIZE = 20;
       const SHIP_THRUST = 5; // ship acceleration in pixels per second
       const SHIP_EXPLODE_DUR = 0.4; // duration of the ship explosion
       const SHIP_INV_DUR = 3; // invisibility duration in seconds
@@ -58,7 +58,7 @@
           roids.push(newAsteroid(x, y, Math.ceil(ROIDS_SIZE / 2)));
         }
       }
-      function destroyAsteroid(index){
+      function destroyAsteroid(index) {
         var x = roids[index].x;
         var y = roids[index].y;
         var r = roids[index].r;
@@ -71,7 +71,7 @@
           roids.push(newAsteroid(x, y, Math.ceil(ROIDS_SIZE / 8)));
         }
         // destroy the asteroid
-        roids.splice(index, i);
+        roids.splice(index, 1);
       }
 
       function distBetweenPoints(x1, y1, x2, y2) {
@@ -126,7 +126,7 @@
           yv:
             ((Math.random() * ROIDS_SPD) / FPS) *
             (Math.random() < 0.5 ? 1 : -1),
-          r: ROIDS_SIZE / 2,
+          r: r,
           a: Math.random() * Math.PI * 2, // in radians
           vert: Math.floor(Math.random() * (ROIDS_VERT + 1) + ROIDS_VERT / 2),
           offs: [],
@@ -329,6 +329,8 @@
                 ship.r + roids[i].r
               ) {
                 explodeShip();
+                destroyAsteroid(i);
+                break;
               }
             }
           }
@@ -424,15 +426,15 @@
           for (var j = ship.lasers.length - 1; j >= 0; j--) {
             lx = ship.lasers[j].x;
             ly = ship.lasers[j].y;
-          // detect collision
-          if (distBetweenPoints(ax, ay, lx, ly) < ar) {
-            // remove laser
-            ship.lasers.splice(j, 1);
-            // remove the asteroid
-            destroyAsteroid();
+            // detect collision
+            if (distBetweenPoints(ax, ay, lx, ly) < ar) {
+              // remove laser
+              ship.lasers.splice(j, 1);
+              // remove the asteroid
+              destroyAsteroid(i);
 
-            break;
-          }
+              break;
+            }
           }
         }
 
